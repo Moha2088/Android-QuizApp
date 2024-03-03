@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Greeting Card</string>
-    <string name="button_text">Show</string>
+    <string name="app_name">QuizApp</string>
+    <string name="Caption">Quiz App</string>
+    <string name="name">name</string>
 </resources>
