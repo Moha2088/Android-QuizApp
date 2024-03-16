@@ -2,4 +2,5 @@
     <string name="app_name">QuizApp</string>
     <string name="Caption">Quiz App</string>
     <string name="name">name</string>
+    <string name="image_flag">Image Flag</string>
 </resources>
