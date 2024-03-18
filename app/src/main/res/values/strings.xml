@@ -3,4 +3,5 @@
     <string name="Caption">Quiz App</string>
     <string name="name">name</string>
     <string name="image_flag">Image Flag</string>
+    <string name="check_answer">Check Answer</string>
 </resources>
