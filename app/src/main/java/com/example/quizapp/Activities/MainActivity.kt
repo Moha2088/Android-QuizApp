@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
         startButton.setOnClickListener {
             if(editTextName.text.isNotEmpty()){
+                Toast.makeText(this,"Welcome to the quiz game ${editTextName.text}", Toast.LENGTH_SHORT)
+                    .show()
+
                 Intent(this@MainActivity, QuestionActivity::class.java).also {
                     startActivity(it)
                     finish()
