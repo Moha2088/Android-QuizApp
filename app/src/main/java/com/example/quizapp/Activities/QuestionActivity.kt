@@ -1,6 +1,7 @@
 package com.example.quizapp.Activities
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -31,13 +32,13 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var option3TextView: TextView
     private lateinit var option4TextView: TextView
 
-
+    private lateinit var name:String
+    private  var score = 0
     private var questionsCounter = 0
     private lateinit var questionList: MutableList<Question>
     private var selectedAnswer = 0
     private lateinit var currentQuestion: Question
     private var answered = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,25 +63,38 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener {
 
         questionList = Constants.getQuestions()
         showNextQuestion()
+
+        if(intent.hasExtra(Constants.USERNAME)){
+            name = intent.getStringExtra(Constants.USERNAME)!!
+        }
     }
 
     private fun showNextQuestion() {
-        resetOptions()
-        val question = questionList[questionsCounter]
-        imageFlag.setImageResource(question.image)
-        progressBar.progress = questionsCounter
-        progressTextView.text = "${questionsCounter + 1}/${progressBar.max}"
-        questionTextView.text = question.question
-        option1TextView.text = question.optionOne
-        option2TextView.text = question.optionTwo
-        option3TextView.text = question.optionThree
-        option4TextView.text = question.optionFour
 
         if (questionsCounter < questionList.size) {
             currentQuestion = questionList[questionsCounter]
             checkButton.text == "Check"
-        } else {
+            resetOptions()
+            val question = questionList[questionsCounter]
+            imageFlag.setImageResource(question.image)
+            progressBar.progress = questionsCounter
+            progressTextView.text = "${questionsCounter + 1}/${progressBar.max}"
+            questionTextView.text = question.question
+            option1TextView.text = question.optionOne
+            option2TextView.text = question.optionTwo
+            option3TextView.text = question.optionThree
+            option4TextView.text = question.optionFour
+        }
+
+        else {
             checkButton.text = "Finish!"
+            Intent(this,ResultActivity::class.java).also {
+                it.putExtra(Constants.USERNAME, name)
+                it.putExtra(Constants.SCORE, score)
+                it.putExtra(Constants.TOTAL_QUESTIONS, questionList.size)
+                startActivity(it)
+                finish()
+            }
         }
 
         questionsCounter++
@@ -136,7 +150,9 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener {
             R.id.answerButton -> {
                 if (!answered) {
                     checkAnswer()
-                } else {
+                }
+
+                else {
                     showNextQuestion()
                 }
 
@@ -153,21 +169,25 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener {
                 1 -> {
                     option1TextView.background = ContextCompat
                         .getDrawable(this, R.drawable.correct_option_border_bg)
+                    score++
                 }
 
                 2 -> {
                     option2TextView.background = ContextCompat
                         .getDrawable(this, R.drawable.correct_option_border_bg)
+                    score++
                 }
 
                 3 -> {
                     option3TextView.background = ContextCompat
                         .getDrawable(this, R.drawable.correct_option_border_bg)
+                    score++
                 }
 
                 4 -> {
                     option4TextView.background = ContextCompat
                         .getDrawable(this, R.drawable.correct_option_border_bg)
+                    score++
                 }
             }
         } else {
@@ -201,7 +221,7 @@ class QuestionActivity : AppCompatActivity(), View.OnClickListener {
     private fun showSolution() {
         selectedAnswer = currentQuestion.correctAnswer
 
-        when(selectedAnswer){
+        when (selectedAnswer) {
             1 -> {
                 option1TextView.background = ContextCompat
                     .getDrawable(this, R.drawable.correct_option_border_bg)

@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizapp.R
+import com.example.quizapp.utils.Constants
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
                     .show()
 
                 Intent(this@MainActivity, QuestionActivity::class.java).also {
+                    it.putExtra(Constants.USERNAME,editTextName.text.toString())
                     startActivity(it)
                     finish()
                 }
